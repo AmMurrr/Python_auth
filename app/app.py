@@ -13,9 +13,6 @@ import json
 
 load_dotenv("app/env.env")
 
-TELEGRAM_BOT_TOKEN_ENV = os.getenv("TELEGRAM_BOT_TOKEN")
-TELEGRAM_CHAT_ID_ENV = os.getenv("TELEGRAM_CHAT_ID")
-
 KAFKA_BOOTSTRAP_SERVERS_ENV = os.getenv("KAFKA_BOOTSTRAP_SERVERS")
 KAFKA_TOPIC_ENV = os.getenv("KAFKA_TOPIC")
 
@@ -43,9 +40,8 @@ def get_db():
         db.close()
 
 
-
 @app.post("/register")
-def register_user(email: str, password: str, db: Session = Depends(get_db)):
+def register(email: str, password: str, db: Session = Depends(get_db)):
     try:
 
         existing_user = db.query(User).filter(User.email == email).first()
